@@ -12,7 +12,7 @@ class Config
     {
         return [
             'default' => [
-                'source_image_directory_path' => './img/',
+                'source_image_directory_path' => dirname(__FILE__) . '/img/',
                 'result_image_width' => 1000,
                 'result_image_height' => 1000,
                 'result_image_can_crop' => false,
@@ -28,7 +28,7 @@ class Config
                 'text_lines_separator' => '|',
                 'text_lines_limit' => 5,
                 'text_line_spacing' => 100,
-                'letters_image_directory_path' => './letters/',
+                'letters_image_directory_path' => dirname(__FILE__) . '/letters/',
                 'letter_image_width' => null,
                 'letter_image_height' => 100,
                 'letter_space_width' => 100,

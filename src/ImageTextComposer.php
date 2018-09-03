@@ -41,24 +41,27 @@ class ImageTextComposer
      */
     private $params;
     /**
-     * @var null|TextModificators
+     * @var Config|null|TextModificators
      */
-    private $textModificatorsClass;
+    private $textModificatorsObject;
 
     /**
      * ImageTextComposer constructor.
      * @param array $params
-     * @param array $config
-     * @param null $textModificatorsClass
+     * @param null $configObject
+     * @param null $textModificatorsObject
      */
-    public function __construct($params = [], $config = [], $textModificatorsClass = null)
+    public function __construct($params = [], $configObject = null, $textModificatorsObject = null)
     {
-        $this->config = $config;
-        $this->params = $params;
-        if (!$textModificatorsClass) {
-            $textModificatorsClass = new TextModificators();
+        if (!$textModificatorsObject) {
+            $textModificatorsObject = new Config();
         }
-        $this->textModificatorsClass = $textModificatorsClass;
+        $this->config = $textModificatorsObject->getConfig();
+        $this->params = $params;
+        if (!$textModificatorsObject) {
+            $textModificatorsObject = new TextModificators();
+        }
+        $this->textModificatorsObject = $textModificatorsObject;
     }
 
     /**
@@ -70,7 +73,7 @@ class ImageTextComposer
      */
     private function getConfig($configField, $obligatory = true, $default = null)
     {
-        $modes = explode('/', $this->getParam('mode', ''));
+        $modes = explode('/', $this->getParam('mode', []));
 
         foreach($modes as $mode) {
             if ($mode && isset($this->config[$mode])) {
@@ -98,9 +101,7 @@ class ImageTextComposer
      */
     private function getImageSource($imagePath, $setResultImageType = false)
     {
-        $imagePath = getcwd() . '/' . $imagePath;
-
-        if (!file_exists($imagePath)) {
+        if (!file_exists($imagePath) || !is_file($imagePath)) {
             throw new Exception('Image does not exist.');
         }
 
@@ -180,7 +181,7 @@ class ImageTextComposer
     private function getParam($param, $default = null)
     {
         if (array_key_exists($param, $this->params)) {
-            return urldecode($this->params[$param]);
+            return $this->params[$param];
         }
 
         return $default;
@@ -344,7 +345,7 @@ class ImageTextComposer
      */
     public function applyTextModificators(&$text)
     {
-        $textModificator = new $this->textModificatorsClass();
+        $textModificator = $this->textModificatorsObject;
         $modificators = $this->getConfig('text_modificators', false, []);
         foreach($modificators as $modificator) {
 
