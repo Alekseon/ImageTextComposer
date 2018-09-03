@@ -1,0 +1,21 @@
+{
+  "name": "alekseon/image-text-composer",
+  "type": "library",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://alekseon.com/",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "authors": [],
+  "require": {
+    "php": ">= 5.2.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "ImageTextComposer": "src/"
+    }
+  }
+}
