@@ -53,14 +53,15 @@ class ImageTextComposer
      */
     public function __construct($params = [], $configObject = null, $textModificatorsObject = null)
     {
-        if (!$textModificatorsObject) {
-            $textModificatorsObject = new Config();
+        if (!$configObject) {
+            $configObject = new Config();
         }
-        $this->config = $textModificatorsObject->getConfig();
+        $this->config = $configObject->getConfig();
         $this->params = $params;
         if (!$textModificatorsObject) {
             $textModificatorsObject = new TextModificators();
         }
+
         $this->textModificatorsObject = $textModificatorsObject;
     }
 
